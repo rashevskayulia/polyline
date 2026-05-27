@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POLYLINE — поліграфічне підприємство</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --fon: #f5efe6;
+            --svitlo: #fbf7f0;
+            --kartka: #fffaf3;
+            --tekst: #2f2a24;
+            --siriy: #7f7468;
+            --akcent: #b99d79;
+            --temniy: #8d7355;
+            --liniya: #e6d8c7;
+            --biliy: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--fon);
+            color: var(--tekst);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(245, 239, 230, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(230, 216, 199, 0.8);
+        }
+
+        .nav {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--tekst);
+            text-decoration: none;
+        }
+
+        .znak {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 2px solid var(--tekst);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Georgia, serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tekst);
+            position: relative;
+            padding-right: 6px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .znak::after {
+            content: "";
+            position: absolute;
+            right: 9px;
+            top: 25%;
+            height: 50%;
+            width: 2px;
+            background: var(--tekst);
+            transition: background 0.3s ease;
+        }
+
+        .logo:hover .znak {
+            background: var(--tekst);
+            color: var(--biliy);
+            transform: scale(1.04);
+        }
+
+        .logo:hover .znak::after {
+            background: var(--biliy);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--siriy);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--tekst);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--tekst);
+        }
+
+        .knopka {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 26px;
+            color: var(--tekst);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hero {
+            min-height: 100vh;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 125px 22px 70px;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 50px;
+            perspective: 1000px;
+        }
+
+        .mitka {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid var(--liniya);
+            border-radius: 40px;
+            color: var(--temniy);
+            background: rgba(255, 250, 243, 0.72);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 84px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+            font-weight: 400;
+            max-width: 650px;
+        }
+
+        .hero h1 span {
+            font-family: Georgia, serif;
+            font-style: italic;
+            color: var(--temniy);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero p {
+            max-width: 560px;
+            margin-top: 28px;
+            color: var(--siriy);
+            font-size: 17px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 34px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 40px;
+            border: 1px solid var(--akcent);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 14px;
+        }
+
+        .mainbtn {
+            background: var(--tekst);
+            color: var(--biliy);
+            border-color: var(--tekst);
+            box-shadow: 0 4px 14px rgba(47, 42, 36, 0.15);
+        }
+
+        .mainbtn:hover {
+            background: var(--temniy);
+            border-color: var(--temniy);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(141, 115, 85, 0.25);
+        }
+
+        .lightbtn {
+            color: var(--tekst);
+            background: transparent;
+        }
+
+        .lightbtn:hover {
+            background: var(--kartka);
+            transform: translateY(-2px);
+        }
+
+        .visual {
+            position: relative;
+            min-height: 520px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .maket {
+            width: min(410px, 100%);
+            height: 510px;
+            background: var(--kartka);
+            border: 1px solid var(--liniya);
+            border-radius: 38px;
+            padding: 28px;
+            box-shadow: 0 30px 80px rgba(77, 62, 45, 0.13);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .arkush {
+            position: absolute;
+            border-radius: 22px;
+            border: 1px solid var(--liniya);
+            background: var(--svitlo);
+            box-shadow: 0 18px 35px rgba(68, 51, 32, 0.08);
+            transition: transform 0.5s ease;
+        }
+
+        .maket:hover .a1 { transform: rotate(-10deg) translateZ(20px); }
+        .maket:hover .a2 { transform: rotate(12deg) translateZ(10px); }
+        .maket:hover .a3 { transform: rotate(2deg) translateZ(30px); }
+
+        .a1 {
+            width: 250px;
+            height: 330px;
+            left: 45px;
+            top: 72px;
+            transform: rotate(-7deg);
+        }
+
+        .a2 {
+            width: 230px;
+            height: 310px;
+            right: 35px;
+            top: 120px;
+            transform: rotate(8deg);
+            background: #efe2d1;
+        }
+
+        .a3 {
+            width: 260px;
+            height: 170px;
+            left: 70px;
+            bottom: 42px;
+            transform: rotate(-1deg);
+            background: #fffaf3;
+        }
+
+        .linii {
+            position: absolute;
+            left: 45px;
+            bottom: 65px;
+            width: 190px;
+        }
+
+        .linii div {
+            height: 9px;
+            border-radius: 20px;
+            background: #d7c3aa;
+            margin-bottom: 12px;
+        }
+
+        .linii div:nth-child(2) { width: 70%; }
+        .linii div:nth-child(3) { width: 45%; }
+
+        .kolo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 1px solid var(--akcent);
+            right: -40px;
+            top: -35px;
+        }
+
+        .dekor {
+            position: absolute;
+            width: 82px;
+            height: 48px;
+            border-radius: 28px;
+            background: var(--tekst);
+            box-shadow: 0 18px 45px rgba(47, 42, 36, 0.15);
+            z-index: 2;
+        }
+
+        .d1 { left: 0; top: 95px; }
+        .d2 { right: 0; bottom: 95px; background: var(--temniy); }
+
+        section { padding: 90px 22px; }
+        .blok { max-width: 1180px; margin: 0 auto; }
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: end;
+            margin-bottom: 38px;
+        }
+
+        .title h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            line-height: 1;
+            font-weight: 400;
+            letter-spacing: -2px;
+        }
+
+        .title p { max-width: 420px; color: var(--siriy); }
+
+        .title .portfolio-link-btn {
+            padding: 12px 24px;
+            border-radius: 40px;
+            border: 1px solid var(--tekst);
+            background: transparent;
+            color: var(--tekst);
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .title .portfolio-link-btn:hover {
+            background: var(--tekst);
+            color: var(--biliy);
+            transform: translateY(-2px);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: rgba(255, 250, 243, 0.7);
+            border: 1px solid var(--liniya);
+            border-radius: 28px;
+            padding: 28px;
+            min-height: 230px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--kartka);
+            border-color: var(--akcent);
+            box-shadow: 0 24px 50px rgba(141, 115, 85, 0.12);
+        }
+
+        .num {
+            color: var(--temniy);
+            font-size: 13px;
+            margin-bottom: 38px;
+        }
+
+        .card h3 { font-size: 21px; margin-bottom: 12px; }
+        .card p { color: var(--siriy); font-size: 14px; }
+
+        .about {
+            background: var(--svitlo);
+            border-top: 1px solid var(--liniya);
+            border-bottom: 1px solid var(--liniya);
+        }
+
+        .aboutgrid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 42px;
+            align-items: center;
+        }
+
+        .box {
+            background: var(--kartka);
+            border: 1px solid var(--liniya);
+            border-radius: 34px;
+            padding: 34px;
+        }
+
+        .box h2 {
+            font-size: clamp(30px, 5vw, 52px);
+            line-height: 1.05;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .box p { color: var(--siriy); margin-bottom: 18px; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .stat {
+            border: 1px solid var(--liniya);
+            border-radius: 22px;
+            padding: 20px;
+            background: var(--svitlo);
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--temniy);
+        }
+
+        .stat span { color: var(--siriy); font-size: 13px; }
+
+        .steps { display: grid; gap: 14px; }
+
+        .step {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            align-items: center;
+            padding: 24px 28px;
+            border-radius: 28px;
+            border: 1px solid var(--liniya);
+            background: rgba(255, 250, 243, 0.72);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            background: var(--biliy);
+            border-color: var(--akcent);
+            transform: translateX(5px);
+        }
+
+        .step h3 { font-size: 20px; font-weight: 400; }
+        .step p { max-width: 420px; color: var(--siriy); font-size: 14px; }
+
+        .works {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr 0.9fr;
+            gap: 18px;
+        }
+
+        .work {
+            min-height: 350px;
+            border-radius: 34px;
+            border: 1px solid var(--liniya);
+            background: var(--kartka);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 18px 45px rgba(77, 62, 45, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .work:hover {
+            transform: scale(1.02);
+        }
+
+        .work.big { background: linear-gradient(135deg, #fffaf3, #eadcc9); }
+        .work h3 { position: relative; z-index: 3; font-size: 24px; max-width: 270px; font-weight: 400; }
+
+        .work p {
+            position: absolute;
+            left: 24px;
+            bottom: 24px;
+            color: var(--siriy);
+            z-index: 3;
+            max-width: 300px;
+            font-size: 14px;
+        }
+
+        .poster {
+            position: absolute;
+            width: 230px;
+            height: 300px;
+            border-radius: 24px;
+            background: #fffaf3;
+            border: 1px solid var(--liniya);
+            right: 35px;
+            top: 35px;
+            transform: rotate(6deg);
+            box-shadow: 0 20px 45px rgba(92, 70, 45, 0.12);
+            transition: transform 0.3s ease;
+        }
+        .work:hover .poster { transform: rotate(3deg) translateY(-5px); }
+
+        .label {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: #eadcc9;
+            border: 1px solid #d3b895;
+            right: -32px;
+            bottom: 34px;
+            transition: transform 0.4s ease;
+        }
+        .work:hover .label { transform: rotate(15deg) scale(1.05); }
+
+        .label::before {
+            content: "";
+            position: absolute;
+            inset: 32px;
+            border-radius: 50%;
+            border: 1px solid #b99d79;
+        }
+
+        .pack {
+            position: absolute;
+            width: 165px;
+            height: 210px;
+            border-radius: 24px;
+            background: #eadcc9;
+            right: 30px;
+            bottom: 38px;
+            transform: rotate(-5deg);
+            border: 1px solid #d3b895;
+            transition: transform 0.4s ease;
+        }
+        .work:hover .pack { transform: rotate(-2deg) translateY(-8px); }
+
+        .pack::before {
+            content: "";
+            position: absolute;
+            left: 28px;
+            top: 35px;
+            width: 105px;
+            height: 105px;
+            border-radius: 22px;
+            background: rgba(255, 250, 243, 0.72);
+        }
+
+        .pack::after {
+            content: "";
+            position: absolute;
+            left: 28px;
+            bottom: 34px;
+            width: 90px;
+            height: 7px;
+            border-radius: 20px;
+            background: #c9ad8a;
+            box-shadow: 0 16px 0 #decbb4;
+        }
+
+        .cta { padding-bottom: 110px; }
+
+        .ctabox {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--tekst);
+            color: var(--biliy);
+            border-radius: 42px;
+            padding: 56px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: center;
+            box-shadow: 0 30px 60px rgba(47, 42, 36, 0.2);
+        }
+
+        .ctabox h2 { font-size: clamp(26px, 4vw, 36px); line-height: 1; font-weight: 400; letter-spacing: -2px; }
+        .ctabox p { margin-top: 18px; color: #d9d0c5; max-width: 560px; }
+
+        .ctabox .btn {
+            background: var(--kartka);
+            color: var(--tekst);
+            border-color: var(--kartka);
+            white-space: nowrap;
+        }
+        .ctabox .btn:hover {
+            background: var(--biliy);
+            transform: translateY(-3px);
+        }
+
+        footer { border-top: 1px solid var(--liniya); padding: 30px 22px; color: var(--siriy); }
+        .footer { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+
+        .show {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.9s cubic-bezier(0.215, 0.610, 0.355, 1), transform 0.9s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .show.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 980px) {
+            .hero, .aboutgrid, .ctabox { grid-template-columns: 1fr; }
+            .visual { min-height: 430px; }
+            .grid, .works { grid-template-columns: repeat(2, 1fr); }
+            .work.big { grid-column: span 2; }
+        }
+
+        @media (max-width: 720px) {
+            .knopka { display: block; }
+            
+            nav ul {
+                position: absolute;
+                top: 72px;
+                left: 22px;
+                right: 22px;
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+                background: var(--kartka);
+                border: 1px solid var(--liniya);
+                border-radius: 24px;
+                padding: 22px;
+                box-shadow: 0 18px 50px rgba(77, 62, 45, 0.12);
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+            }
+
+            nav ul.open {
+                display: flex;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .hero h1 { letter-spacing: -2px; }
+            .title { align-items: flex-start; flex-direction: column; gap: 14px; }
+            .grid, .works, .stats { grid-template-columns: 1fr; }
+            .work.big { grid-column: span 1; }
+            .step { align-items: flex-start; flex-direction: column; }
+            .ctabox { padding: 36px 24px; }
+            .dekor { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav">
+            <a href="index.html" class="logo">
+                <span class="znak">P</span>
+                <span>POLYLINE</span>
+            </a>
+
+            <nav>
+                <button class="knopka" id="knopka">☰</button>
+                <ul id="menu">
+                    <li><a href="index.html" style="color: var(--tekst)">Головна</a></li>
+                    <li><a href="services.html">Послуги</a></li>
+                    <li><a href="portfolio.html">Продукція</a></li>
+                    <li><a href="contacts.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="show">
+                <span class="mitka">поліграфія · дизайн · друк · пакування</span>
+                <h1>Друк, який виглядає <span>чисто</span>, дорого і сучасно</h1>
+                <p>
+                    POLYLINE — професійне поліграфічне підприємство, що виготовляє друковану продукцію для бізнесу, брендів, навчальних проєктів, реклами, пакування та особистих замовлень.
+                </p>
+
+                <div class="buttons">
+                    <a href="services.html" class="btn mainbtn">Переглянути послуги</a>
+                    <a href="#about" class="btn lightbtn">Дізнатися більше</a>
+                </div>
+            </div>
+
+            <div class="visual show">
+                <div class="dekor d1"></div>
+                <div class="dekor d2"></div>
+
+                <div class="maket" id="parallax-maket">
+                    <div class="kolo"></div>
+                    <div class="arkush a1"></div>
+                    <div class="arkush a2"></div>
+                    <div class="arkush a3"></div>
+                    <div class="linii">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="blok">
+                <div class="title show">
+                    <h2>Основні напрями</h2>
+                    <p>Підприємство працює з різними видами друкованої продукції: від простих матеріалів до складніших рекламних і пакувальних рішень.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card show">
+                        <div class="num">01</div>
+                        <h3>Цифровий друк</h3>
+                        <p>Виготовлення малих і середніх тиражів для навчання, бізнесу та реклами.</p>
+                    </div>
+
+                    <div class="card show">
+                        <div class="num">02</div>
+                        <h3>Рекламна продукція</h3>
+                        <p>Флаєри, буклети, листівки, плакати, сертифікати та інформаційні матеріали.</p>
+                    </div>
+
+                    <div class="card show">
+                        <div class="num">03</div>
+                        <h3>Пакування</h3>
+                        <p>Етикетки, наклейки, коробки, бірки та інші елементи оформлення товару.</p>
+                    </div>
+
+                    <div class="card show">
+                        <div class="num">04</div>
+                        <h3>Підготовка макетів</h3>
+                        <p>Перевірка файлів, виправлення розмірів, полів, кольорів і готовності до друку.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="blok aboutgrid">
+                <div class="box show">
+                    <h2>Індивідуальний підхід до кожного відбитка</h2>
+                    <p>
+                        Ми віримо, що якісна поліграфія — це не просто фарба на папері, а важлива частина візуальної культури вашого бренду чи проєкту. Кожне замовлення ми розглядаємо як унікальне завдання, де форма, колір та текстура матеріалу мають працювати на ідеальний результат.
+                    </p>
+                    <p>
+                    Виробничі потужності POLYLINE дозволяють реалізовувати будь-які ідеї для бізнесу, реклами, навчання та персональних замовлень — від лаконічних візиток преміум-класу до складних пакувальних рішень та багатосторінкових каталогів.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <strong class="count-num" data-target="12">12+</strong>
+                            <span>напрямів роботи</span>
+                        </div>
+                        <div class="stat">
+                            <strong class="count-num" data-target="24">24</strong>
+                            <span>години на старт</span>
+                        </div>
+                        <div class="stat">
+                            <strong class="count-num" data-target="100">100%</strong>
+                            <span>перевірка макету</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="steps show">
+                    <div class="step">
+                        <h3>Аналіз замовлення</h3>
+                        <p>Уточнюємо формат, тираж, підбираємо оптимальні матеріали за щільністю, погоджуємо чіткі терміни та призначення майбутньої продукції.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Підготовка файлу</h3>
+                        <p>Детально перевіряємо розміри, вильоти, колірну модель, якість растрових зображень та повну готовність макета до друку.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Друк і обробка</h3>
+                        <p>Виконуємо високоточний друк, акуратну обрізку, ламінування, бігування або будь-яку іншу необхідну післядрукарську обробку виробу.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="blok">
+                <div class="title show">
+                    <h2>Приклади продукції</h2>
+                    <a href="portfolio.html" class="portfolio-link-btn">Дізнатися більше</a>
+                </div>
+
+                <div class="works">
+                    <div class="work big show">
+                        <h3>Каталоги та презентаційні матеріали</h3>
+                        <div class="poster"></div>
+                        <p>Друковані матеріали для компаній, навчання, подій і презентацій.</p>
+                    </div>
+
+                    <div class="work show">
+                        <h3>Етикетки</h3>
+                        <div class="label"></div>
+                        <p>Оформлення товарів, пакування та брендованих серій.</p>
+                    </div>
+
+                    <div class="work show">
+                        <h3>Пакування</h3>
+                        <div class="pack"></div>
+                        <p>Коробки, бірки, наклейки та декоративні елементи.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="ctabox show">
+                <div>
+                    <h2>Готові втілити свій проєкт у життя?</h2>
+                    <p>Зв'яжіться з нами, і ми допоможемо пройти весь шлях — від першого начерку макета до готового відбитка.</p>
+                </div>
+                <a href="contacts.html" class="btn">Зв'язатися</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer">
+            <p>© 2026 POLYLINE. Поліграфічне підприємство.</p>
+            <p>Якість · Довіра · POLYLINE</p>
+        </div>
+    </footer>
+
+    <script>
+        const knopka = document.getElementById('knopka');
+        const menu = document.getElementById('menu');
+        const elementi = document.querySelectorAll('.show');
+
+        knopka.addEventListener('click', () => {
+            menu.classList.toggle('open');
+            knopka.textContent = menu.classList.contains('open') ? '×' : '☰';
+            knopka.style.transform = menu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        const maket = document.getElementById('parallax-maket');
+        if(window.innerWidth > 720) {
+            document.addEventListener('mousemove', (e) => {
+                const ax = -(window.innerWidth / 2 - e.pageX) / 45;
+                const ay = (window.innerHeight / 2 - e.pageY) / 45;
+                maket.style.transform = `rotateY(${ax}deg) rotateX(${ay}deg) rotate(2deg)`;
+            });
+        }
+
+        let statsAnimated = false;
+        function animateCounters() {
+            const counters = document.querySelectorAll('.count-num');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const suffix = counter.parentNode.querySelector('span').textContent.includes('напрями') ? '+' : '';
+                
+                let count = 0;
+                const speed = target / 40; 
+
+                const updateCount = () => {
+                    count += speed;
+                    if (count < target) {
+                        counter.innerText = Math.floor(count) + suffix;
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target + suffix;
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        function pokaz() {
+            elementi.forEach((el) => {
+                const top = el.getBoundingClientRect().top;
+                const height = window.innerHeight;
+
+                if (top < height - 120) {
+                    el.classList.add('active');
+                    
+                    if (el.classList.contains('about') && !statsAnimated) {
+                        animateCounters();
+                        statsAnimated = true;
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', pokaz);
+        window.addEventListener('load', pokaz);
+    </script>
+</body>
+</html>
