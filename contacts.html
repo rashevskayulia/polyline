@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакти — POLYLINE</title>
-    <link rel="icon" type="image/png" href="favicon.PNG">
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
         * {
@@ -477,25 +477,34 @@
                 Дякуємо! Ваше повідомлення успішно надіслано. Ми перевіримо макет та зв'яжемося з вами найближчим часом.
             </div>
 
-            <form id="contactForm" onsubmit="sendForm(event)" enctype="multipart/form-data">
+            <form 
+            action="https://formsubmit.co/rashevskayulia@gmail.com" 
+            method="POST" 
+            enctype="multipart/form-data"
+            >
+           
+            <input type="hidden" name="_subject" value="Нова заявка з сайту POLYLINE">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
                 <div class="form-group">
-                    <input type="text" id="name" class="form-input" placeholder=" " required>
+                    <input type="text" name="Ім'я" id="name" class="form-input" placeholder=" " required>
                     <label class="form-label" for="name">Ваше ім'я</label>
                 </div>
 
                 <div class="form-group">
-                    <input type="email" id="email" class="form-input" placeholder=" " required>
+                    <input type="email" name="Email" id="email" class="form-input" placeholder=" " required>
                     <label class="form-label" for="email">E-mail для зв'язку</label>
                 </div>
 
                 <div class="form-group">
-                    <textarea id="message" class="form-input" placeholder=" " required></textarea>
+                    <textarea name="Повідомлення" id="message" class="form-input" placeholder=" " required></textarea>
                     <label class="form-label" for="message">Опишіть замовлення (тираж, формат, папір) або своє запитання</label>
                 </div>
 
                 <div class="form-group">
                     <div class="file-wrapper">
-                        <input type="file" id="layoutFile" class="file-input-hidden" onchange="displayFileName()">
+                        <input type="file" name="Файл" id="layoutFile" class="file-input-hidden" onchange="displayFileName()">
                         <div class="file-custom-label" id="fileLabel">
                             <p id="fileText">Прикріпити макет виробу / задумки</p>
                             <span>Оберіть файл PDF, AI, ZIP або ін. відповідного формату</span>
@@ -549,25 +558,6 @@
         }
     }
 
-    function sendForm(event) {
-        event.preventDefault();
-        
-        const form = document.getElementById('contactForm');
-        const successBlock = document.getElementById('successBlock');
-        const fileText = document.getElementById('fileText');
-        const fileWrapper = document.querySelector('.file-wrapper');
-        
-        successBlock.style.display = 'block';
-        
-        form.reset();
-        
-        fileText.innerText = "Прикріпити готовий макет виробу";
-        fileText.style.color = "var(--siriy)";
-        fileWrapper.style.borderColor = "var(--liniya)";
-        fileWrapper.style.background = "rgba(251, 247, 240, 0.4)";
-
-        successBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
 
     window.addEventListener('scroll', showBlocks);
     window.addEventListener('load', showBlocks);
